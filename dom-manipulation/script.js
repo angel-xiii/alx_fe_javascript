@@ -3,6 +3,17 @@ let quotes = [
     { text: "It's not whether you get knocked down, it's whether you get up.", category: "Resilience" },
     { text: "Don't let yesterday take up too much of today.", category: "Inspiration" }
 ];
+function loadQuotesFromLocalStorage() {
+    const storedQuotes = localStorage.getItem("quotes");  
+    if (storedQuotes) {
+        quotes = JSON.parse(storedQuotes);
+    }   
+}
+
+function saveQuotesToLocalStorage() {
+    localStorage.setItem("quotes", JSON.stringify(quotes));
+}
+
 function showRandomQuote() { 
     const randomIndex = Math.floor(Math.random() * quotes.length); 
     const { text, category } = quotes[randomIndex];
