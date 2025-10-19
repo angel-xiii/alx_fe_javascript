@@ -76,15 +76,21 @@ function createAddQuoteForm() {
 }
 async function fetchQuotesFromServer() {
   try {
-    // Using JSONPlaceholder to simulate a server request
     const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
     const serverData = await response.json();
 
-    // Convert server data to a "quote-like" format
     const serverQuotes = serverData.map(item => ({
       text: item.title,
       category: "Server"
     }));
+    resolveConflicts(serverQuotes);
+
+    notifyUser("✅ Quotes synced with server!");
+  } catch (error) {
+    console.error("❌ Error fetching quotes from server:", error);
+    notifyUser("⚠️ Failed to sync with server.");
+  }
+}
 
     async function postQuoteToServer(quote) {
   try {
@@ -101,7 +107,10 @@ function syncQuotes() {
   setInterval(fetchQuotesFromServer, 10000);
 }
 window.onload = () => {
-    showRandomQuote();
+  loadQuotesFromLocalStorage();
+  createAddQuoteForm();
+  showRandomQuote();
+  syncQuotes();
 
     const newQuoteButton = document.getElementById("newQuoteButton");
     if (newQuoteButton) {
