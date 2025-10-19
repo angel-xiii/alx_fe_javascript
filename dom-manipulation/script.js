@@ -143,6 +143,18 @@ function syncQuotes() {
   fetchQuotesFromServer();
   setInterval(fetchQuotesFromServer, 10000);
 }
+function exportQuotesAsBlob() {
+  const blob = new Blob([JSON.stringify(quotes, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "quotes_backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+  notifyUser("📦 Quotes exported as Blob (simulated sync)!");
+}
 window.onload = () => {
   loadQuotesFromLocalStorage();
   createAddQuoteForm();
