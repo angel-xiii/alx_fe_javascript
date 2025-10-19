@@ -74,7 +74,17 @@ function createAddQuoteForm() {
 
   formContainer.appendChild(form);
 }
+async function fetchQuotesFromServer() {
+  try {
+    // Using JSONPlaceholder to simulate a server request
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+    const serverData = await response.json();
 
+    // Convert server data to a "quote-like" format
+    const serverQuotes = serverData.map(item => ({
+      text: item.title,
+      category: "Server"
+    }));
 window.onload = () => {
     showRandomQuote();
 
