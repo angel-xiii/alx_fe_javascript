@@ -38,7 +38,7 @@ function addQuote() {
   const newQuote = { text: newText, category: newCategory };
   quotes.push(newQuote);
   saveQuotesToLocalStorage();
-  notifyUser("New quote added locally!");
+  notifyUser("New quote added successfully!");
   textInput.value = "";
   categoryInput.value = "";
 
@@ -85,6 +85,17 @@ async function fetchQuotesFromServer() {
       text: item.title,
       category: "Server"
     }));
+
+    async function postQuoteToServer(quote) {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(quote)
+    });
+
 window.onload = () => {
     showRandomQuote();
 
