@@ -35,16 +35,13 @@ function populateCategories() {
 
   categorySelect.innerHTML = "";
 
-  // Get unique categories from quotes array
   const uniqueCategories = [...new Set(quotes.map(q => q.category))];
 
-  // Add default "All" option
   const allOption = document.createElement("option");
   allOption.value = "All";
   allOption.textContent = "All Categories";
   categorySelect.appendChild(allOption);
 
-  // Add each category as an option
   uniqueCategories.forEach(category => {
     const option = document.createElement("option");
     option.value = category;
@@ -52,11 +49,10 @@ function populateCategories() {
     categorySelect.appendChild(option);
   });
 
-  // Restore last selected category from local storage
   const lastSelected = localStorage.getItem("selectedCategory");
   if (lastSelected) {
     categorySelect.value = lastSelected;
-    filterQuotes(); // Show quotes based on saved category
+    filterQuotes(); 
   }
 }
  
@@ -155,6 +151,34 @@ function exportQuotesAsBlob() {
   URL.revokeObjectURL(url);
   notifyUser("📦 Quotes exported as Blob (simulated sync)!");
 }
+
+function importQuotesFromFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const importedQuotes = JSON.parse(e.target.result);
+
+      if (Array.isArray(importedQuotes)) {
+        quotes = importedQuotes;
+        saveQuotesToLocalStorage();
+        showRandomQuote();
+        notifyUser("📥 Quotes imported successfully!");
+      } else {
+        throw new Error("Invalid file format");
+      }
+    } catch (err) {
+      console.error("❌ Error importing file:", err);
+      notifyUser("⚠️ Failed to import quotes (invalid JSON).");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
 window.onload = () => {
   loadQuotesFromLocalStorage();
   createAddQuoteForm();
