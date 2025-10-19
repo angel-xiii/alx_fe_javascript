@@ -22,6 +22,29 @@ function showRandomQuote() {
     quoteContainer.innerHTML = `<p>"${text}"</p>
     <span>- ${category}</span>`;
 }
+
+function addQuote() {
+  const textInput = document.getElementById("newQuoteText");
+  const categoryInput = document.getElementById("newQuoteCategory");
+
+  const newText = textInput.value.trim();
+  const newCategory = categoryInput.value.trim();
+
+  if (!newText || !newCategory) {
+    alert("Please enter both a quote and a category!");
+    return;
+  }
+
+  const newQuote = { text: newText, category: newCategory };
+  quotes.push(newQuote);
+  saveQuotesToLocalStorage();
+  notifyUser("New quote added locally!");
+  textInput.value = "";
+  categoryInput.value = "";
+
+  postQuoteToServer(newQuote);
+}
+
 function createAddQuoteForm() {
   const formContainer = document.getElementById("formContainer");
   if (!formContainer) return;
