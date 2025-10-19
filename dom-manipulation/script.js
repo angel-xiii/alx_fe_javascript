@@ -95,7 +95,10 @@ async function fetchQuotesFromServer() {
       },
       body: JSON.stringify(quote)
     });
-
+ 
+function syncQuotes() {
+  fetchQuotesFromServer();
+}
 window.onload = () => {
     showRandomQuote();
 
