@@ -26,7 +26,34 @@ function showRandomQuote() {
 function populateCategories() {
   const categorySelect = document.getElementById("categoryFilter");
   if (!categorySelect) return;
-  
+
+  categorySelect.innerHTML = "";
+
+  // Get unique categories from quotes array
+  const uniqueCategories = [...new Set(quotes.map(q => q.category))];
+
+  // Add default "All" option
+  const allOption = document.createElement("option");
+  allOption.value = "All";
+  allOption.textContent = "All Categories";
+  categorySelect.appendChild(allOption);
+
+  // Add each category as an option
+  uniqueCategories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categorySelect.appendChild(option);
+  });
+
+  // Restore last selected category from local storage
+  const lastSelected = localStorage.getItem("selectedCategory");
+  if (lastSelected) {
+    categorySelect.value = lastSelected;
+    filterQuotes(); // Show quotes based on saved category
+  }
+}
+ 
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
