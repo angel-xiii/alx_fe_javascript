@@ -98,6 +98,7 @@ async function fetchQuotesFromServer() {
  
 function syncQuotes() {
   fetchQuotesFromServer();
+  setInterval(fetchQuotesFromServer, 10000);
 }
 window.onload = () => {
     showRandomQuote();
