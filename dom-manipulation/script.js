@@ -15,6 +15,12 @@ function saveQuotesToLocalStorage() {
 }
 
 function showRandomQuote() { 
+     const quoteDisplay = document.getElementById("quoteDisplay");
+
+  if (quotes.length === 0) {
+    quoteDisplay.innerHTML = "<p>No quotes available.</p>";
+    return;
+  }
     const randomIndex = Math.floor(Math.random() * quotes.length); 
     const { text, category } = quotes[randomIndex];
 
