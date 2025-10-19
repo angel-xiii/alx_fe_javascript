@@ -23,6 +23,10 @@ function showRandomQuote() {
     <span>- ${category}</span>`;
 }
 
+function populateCategories() {
+  const categorySelect = document.getElementById("categoryFilter");
+  if (!categorySelect) return;
+  
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
